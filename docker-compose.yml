@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:17
+    container_name: quotes-db
+    restart: always
+    env_file:
+      - .env.dev
+    ports:
+      - "5433:5432"   # maps local 5433 → container 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: quotes-pgadmin
+    restart: always
+    env_file:
+      - .env.dev
+    ports:
+      - "5051:80"     # maps local 5051 → container 80
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
