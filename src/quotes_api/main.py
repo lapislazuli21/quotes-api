@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from .api.v1.quotes import router as quotes_router
 from .api.v1.routes_health import router as health_router
 from .core.config import get_settings
 
@@ -14,7 +15,7 @@ def create_app() -> FastAPI:
 
     # Include routers
     app.include_router(health_router, prefix=get_settings().api_prefix, tags=["Health"])
-
+    app.include_router(quotes_router, prefix=get_settings().api_prefix, tags=["Quotes"])
     return app
 
 
