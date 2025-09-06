@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     env: str = env_name
     database_url: str
     valkey_url: str
+    api_key: str
 
     model_config = SettingsConfigDict(env_file=env_file, extra = "ignore")
 
@@ -30,4 +31,5 @@ class TestSettings(Settings):
     """
     For tests, we override with a dedicated TestSettings class
     """
+    api_key: str
     model_config = SettingsConfigDict(env_file=".env.test", extra="ignore")

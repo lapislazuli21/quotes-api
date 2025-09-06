@@ -1,4 +1,19 @@
 services:
+
+  api:
+    build: .
+    container_name: quotes-api
+    restart: always
+    env_file:
+      - .env.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - db
+      - cache
+
   db:
     image: postgres:17
     container_name: quotes-db

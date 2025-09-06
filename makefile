@@ -1,24 +1,32 @@
-.PHONY: run-dev test docker-dev docker-down logs help migrate-new migrate-up
+.PHONY: run-dev test rebuild logs help migrate-new migrate-up up down
 
 # Run app in dev mode with .env.local
 run-dev:
 	@echo "🚀 Running FastAPI app in development mode..."
 	python -m dotenv -f .env.local run -- uvicorn src.quotes_api.main:app --reload
 
+# Build and start all services (API, DB, Cache) in Docker
+up:
+	@echo "🚀 Building and starting the full application stack..."
+	docker-compose up --build -d
+
+# Stop and remove all services and volumes
+down:
+	@echo "🧹 Stopping and cleaning up all containers..."
+	docker-compose down -v
+
 # Run tests with .env.test (uses SQLite by default)
 test:
 	@echo "🧪 Running tests..."
 	pytest -v --maxfail=1 --disable-warnings
 
-# Start Docker services (Postgres + pgAdmin)
-docker-dev:
-	@echo "🐳 Starting Docker containers..."
-	docker-compose up -d
+rebuild:
+	@echo "🧹 Forcing a full rebuild of all services..."
+	docker-compose build --no-cache && docker-compose up -d
 
-# Stop and remove Docker services
-docker-down:
-	@echo "🧹 Stopping and cleaning up Docker containers..."
-	docker-compose down -v
+regen-lock:
+	@echo "🧹 Regenerating the uv.lock file..."
+	uv pip compile pyproject.toml -o uv.lock --all-extras
 
 # Tail logs from Docker
 logs:

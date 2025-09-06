@@ -1,7 +1,7 @@
 [project]
-name = "src"
+name = "Quotes_API"
 version = "0.1.0"
-description = "Add your description here"
+description = "An API that fetches quotes, and provides a featured quote"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -14,8 +14,9 @@ dependencies = [
     "python-dotenv>=1.1.1",
     "redis[hiredis]>=6.4.0",
     "sqlalchemy>=2.0.43",
-    "uvicorn>=0.35.0",
+    "uvicorn[standard]>=0.35.0",
     "valkey>=6.1.1",
+    "click>=8.1.7",
 ]
 
 [dependency-groups]
