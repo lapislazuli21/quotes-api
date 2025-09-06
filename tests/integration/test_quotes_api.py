@@ -28,7 +28,7 @@ async def test_create_and_delete_quote_authorized(authorized_client: TestClient)
     """
 
     # 1. Create a new quote
-    new_quote_data = {"content": "The only thing we have to fear is fear itself.", "author": "FDR"}
+    new_quote_data = {"content": "The only thing we have to fear is fear itself.", "author": 1}
     response = authorized_client.post("/api/v1/quotes", json=new_quote_data)
 
     assert response.status_code == 201
