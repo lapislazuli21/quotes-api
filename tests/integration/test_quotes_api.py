@@ -16,7 +16,7 @@ async def test_create_quote_unauthorized(client: TestClient):
     """
     Tests that creating a quote fails with a 401 error if no API key is provided.
     """
-    response = client.post("/api/v1/quotes", json={"content": "test", "author": "test"})
+    response = client.post("/api/v1/quotes", json={"content": "test", "author": 0})
     assert response.status_code == 401
 
 
