@@ -31,7 +31,11 @@ jobs:
           echo "API_KEY=ci_test_key" >> .env.test
 
       - name: Install all project dependencies
+        env:
+          ENV: test
         run: uv pip install --system -e ".[dev]"
 
       - name: Run tests with pytest
+        env:
+          ENV: test
         run: pytest
