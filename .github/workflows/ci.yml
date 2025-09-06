@@ -1,0 +1,42 @@
+name: CI Pipeline
+
+# Trigger the workflow on push or pull request events for the main branch
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Create .env.test file
+        run: |
+          echo "ENV=test" >> .env.test
+          echo "DATABASE_URL=sqlite+aiosqlite:///" >> .env.test
+          echo "API_KEY=ci_test_key" >> .env.test
+          echo "VALKEY_URL=redis://localhost:6379" >> .env.test
+
+      - name: Install all project dependencies
+        env:
+          ENV: test
+        run: uv pip install --system -e ".[dev]"
+
+      - name: Run tests with pytest
+        env:
+          ENV: test
+        run: pytest

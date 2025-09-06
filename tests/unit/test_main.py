@@ -1,6 +1,9 @@
+import pytest
 from fastapi.testclient import TestClient
 
-def test_read_root(client: TestClient):
+
+@pytest.mark.asyncio
+async def test_read_root(client: TestClient):
     """
     Example test for a root endpoint.
     """

@@ -1,4 +1,19 @@
 services:
+
+  api:
+    build: .
+    container_name: quotes-api
+    restart: always
+    env_file:
+      - .env.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - db
+      - cache
+
   db:
     image: postgres:17
     container_name: quotes-db
@@ -20,6 +35,13 @@ services:
       - "5051:80"     # maps local 5051 → container 80
     depends_on:
       - db
+
+  cache:
+    image: valkey/valkey:7.2-alpine
+    container_name: quotes_cache
+    restart: always
+    ports:
+      - "6379:6379"
 
 volumes:
   postgres_data:

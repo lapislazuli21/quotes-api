@@ -1,8 +1,10 @@
+import os
 from functools import lru_cache
 
-from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+env_name = os.getenv("ENV", "dev")
+env_file = f".env.{env_name}"
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
@@ -10,9 +12,12 @@ class Settings(BaseSettings):
     project_name: str = "Quotes API"
     version: str = "1.0.0"
     api_prefix: str = "/api/v1"
-    env: str = Field(default="dev", description="Environment: dev, prod, test")
+    env: str = env_name
+    database_url: str
+    valkey_url: str
+    api_key: str
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=env_file, extra = "ignore")
 
 @lru_cache
 def get_settings() -> Settings:
@@ -26,4 +31,5 @@ class TestSettings(Settings):
     """
     For tests, we override with a dedicated TestSettings class
     """
+    api_key: str
     model_config = SettingsConfigDict(env_file=".env.test", extra="ignore")

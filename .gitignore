@@ -13,3 +13,5 @@ wheels/
 .env.dev
 .env.test
 .env.prod
+
+.idea/
