@@ -57,7 +57,6 @@ async def authorized_client(client: TestClient):
     """
     A TestClient that includes the API key in its headers for authorized requests.
     """
-    async for c in client:
-        api_key = test_settings.api_key
-        c.headers = {"X-API-Key": api_key, **c.headers}
-        yield c
+    api_key = test_settings.api_key
+    client.headers = {"X-API-Key": api_key, **client.headers}
+    return client
