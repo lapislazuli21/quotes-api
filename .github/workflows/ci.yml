@@ -27,6 +27,9 @@ jobs:
       - name: Install dependencies
         run: uv pip sync --system pyproject.toml
 
+      - name: Install project with dev dependencies
+        run: uv pip install -e ".[dev]"
+
       - name: Create .env.test file
         run: |
           echo "ENV=test" >> .env.test
